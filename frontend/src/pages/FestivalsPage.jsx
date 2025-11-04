@@ -3,6 +3,7 @@ import Button from "../components/Button";
 import ConfirmationModal from "../components/ConfirmationModal";
 import Table from "../components/Table";
 import AddEditModal from "../components/AddEditModal";
+import { Icon } from "@iconify/react";
 
 const fakeFestivals = [
 	{
@@ -172,9 +173,16 @@ function FestivalsPage() {
 				<div className="flex justify-between">
 					<div>
 						<h2 className="text-3xl font-bold">Festival</h2>
-						<p>
-							Here you can track your Festivals. Click on a festival to view
-							more details
+						<p className="flex items-center gap-2">
+							Here you can track your Festivals. Click on a festival{" "}
+							<span>
+								<Icon
+									icon="mdi:eye"
+									width="18"
+									height="18"
+								/>
+							</span>
+							to view more details
 						</p>
 					</div>
 					<div className="flex items-center">
@@ -186,6 +194,7 @@ function FestivalsPage() {
 					data={festivals}
 					onDelete={handleDeleteClick}
 					onEdit={handleEdit}
+					showViewMore={true}
 				/>
 			</div>
 			{openModal && (

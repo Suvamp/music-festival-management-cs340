@@ -1,5 +1,4 @@
-// components/Button.jsx
-export default function Button({ children, onClick, className = "" }) {
+function Button({ children, onClick, className = "" }) {
 	return (
 		<button
 			onClick={onClick}
@@ -8,3 +7,5 @@ export default function Button({ children, onClick, className = "" }) {
 		</button>
 	);
 }
+
+export default Button;
