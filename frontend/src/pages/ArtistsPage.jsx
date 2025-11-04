@@ -1,14 +1,10 @@
 import { useState } from "react";
-import Button from "../components/Button";
-import ConfirmationModal from "../components/ConfirmationModal";
-import Table from "../components/Table";
-import AddEditModal from "../components/AddEditModal";
-
-// fakeData.js
+import CrudPage from "../components/CrudPage";
+import { artistColumns, artistFields } from "../config/artists";
 const fakeData = [
 	{
-		id: 1,
-		name: "Kenny Sieu",
+		artistID: 1,
+		artistName: "Kenny Sieu",
 		genre: "Electronic",
 		bookingFee: 2500,
 		email: "kenny.sieu@example.com",
@@ -17,8 +13,8 @@ const fakeData = [
 		website: "https://kennybeats.com",
 	},
 	{
-		id: 2,
-		name: "Alice Johnson",
+		artistID: 2,
+		artistName: "Alice Johnson",
 		genre: "Pop",
 		bookingFee: 3000,
 		email: "alice.johnson@example.com",
@@ -27,8 +23,8 @@ const fakeData = [
 		website: "https://alicepop.com",
 	},
 	{
-		id: 3,
-		name: "Bob Smith",
+		artistID: 3,
+		artistName: "Bob Smith",
 		genre: "Rock",
 		bookingFee: "$4,200",
 		email: "bob.smith@example.com",
@@ -37,8 +33,8 @@ const fakeData = [
 		website: "https://bobrock.com",
 	},
 	{
-		id: 4,
-		name: "Jane Doe",
+		artistID: 4,
+		artistName: "Jane Doe",
 		genre: "Jazz",
 		bookingFee: "$3,800",
 		email: "jane.doe@example.com",
@@ -47,8 +43,8 @@ const fakeData = [
 		website: "https://janedoejazz.com",
 	},
 	{
-		id: 5,
-		name: "Michael Brown",
+		artistID: 5,
+		artistName: "Michael Brown",
 		genre: "Hip-Hop",
 		bookingFee: "$5,000",
 		email: "michael.brown@example.com",
@@ -57,8 +53,8 @@ const fakeData = [
 		website: "https://mikehiphop.com",
 	},
 	{
-		id: 6,
-		name: "Sarah Lee",
+		artistID: 6,
+		artistName: "Sarah Lee",
 		genre: "Country",
 		bookingFee: "$2,800",
 		email: "sarah.lee@example.com",
@@ -67,8 +63,8 @@ const fakeData = [
 		website: "https://sarahcountry.com",
 	},
 	{
-		id: 7,
-		name: "David Kim",
+		artistID: 7,
+		artistName: "David Kim",
 		genre: "R&B",
 		bookingFee: "$3,600",
 		email: "david.kim@example.com",
@@ -77,8 +73,8 @@ const fakeData = [
 		website: "https://davidrb.com",
 	},
 	{
-		id: 8,
-		name: "Emma White",
+		artistID: 8,
+		artistName: "Emma White",
 		genre: "Electronic",
 		bookingFee: "$2,900",
 		email: "emma.white@example.com",
@@ -87,8 +83,8 @@ const fakeData = [
 		website: "https://emmaelectronica.com",
 	},
 	{
-		id: 9,
-		name: "Liam Garcia",
+		artistID: 9,
+		artistName: "Liam Garcia",
 		genre: "Reggae",
 		bookingFee: "$3,400",
 		email: "liam.garcia@example.com",
@@ -97,8 +93,8 @@ const fakeData = [
 		website: "https://liamreggae.com",
 	},
 	{
-		id: 10,
-		name: "Olivia Martinez",
+		artistID: 10,
+		artistName: "Olivia Martinez",
 		genre: "Pop",
 		bookingFee: "$4,000",
 		email: "olivia.martinez@example.com",
@@ -109,135 +105,27 @@ const fakeData = [
 ];
 
 function ArtistsPage() {
-	const columns = [
-		{ header: "ID", accessor: "id" },
-		{ header: "Name", accessor: "name" },
-		{ header: "Genre", accessor: "genre" },
-		{ header: "Booking Fee", accessor: "bookingFee" },
-		{ header: "Email", accessor: "email" },
-		{ header: "Phone", accessor: "phone" },
-		{ header: "Country", accessor: "country" },
-		{ header: "Website", accessor: "website" },
-	];
-
-	const fields = [
-		{ name: "name", label: "Artist Name", placeholder: "Enter artist name" },
-		{ name: "genre", label: "Genre", placeholder: "Enter genre" },
-		{
-			name: "bookingFee",
-			label: "Booking Fee",
-			type: "number",
-			placeholder: "Enter booking Fee",
-		},
-		{
-			name: "email",
-			label: "Email",
-			type: "email",
-			placeholder: "Enter email",
-		},
-		{
-			name: "phone",
-			label: "Phone",
-			type: "number",
-			placeholder: "Enter phone number",
-		},
-		{
-			name: "country",
-			label: "Country",
-			placeholder: "Enter country",
-		},
-		{
-			name: "website",
-			label: "Website",
-			placeholder: "Enter website",
-		},
-	];
-
-	const [artists, setArtists] = useState(fakeData);
-
-	const [openModal, setOpenModal] = useState(false);
-	const [openDeleteModal, setOpenDeleteModal] = useState(false);
-	const [selectedArtist, setSelectedArtist] = useState(null);
-	const [artistToDelete, setArtistToDelete] = useState(null);
-
-	// THIS DELETES ARTIST
-	const handleDeleteClick = (artist) => {
-		setArtistToDelete(artist);
-		setOpenDeleteModal(true);
+	const [data, setData] = useState(fakeData);
+	const handleSubmit = (item) => {
+		console.log(`Submitted, ${item}`);
 	};
-
-	const confirmDelete = () => {
-		if (artistToDelete) {
-			setArtists((prev) => prev.filter((a) => a.id !== artistToDelete.id));
-			setArtistToDelete(null);
-			setOpenDeleteModal(false);
-		}
+	const handleDelete = (item) => {
+		console.log(`Deleted ${item}`);
+		setData((prev) => prev.filter((a) => a.artistID !== item.artistID));
 	};
-	// THIS ADDS ARTIST
-	const handleAdd = (artist) => {
-		if (selectedArtist) {
-			// Editing
-			setArtists((prev) => prev.map((a) => (a.id === artist.id ? artist : a)));
-			setSelectedArtist(null);
-		} else {
-			// Adding
-			setArtists((prev) => [...prev, artist]);
-		}
-		setOpenModal(false);
-	};
-
-	const handleOpenAdd = () => {
-		setSelectedArtist(null);
-		setOpenModal(true);
-	};
-
-	// THIS EDITS ARTIST
-	const handleEdit = (artist) => {
-		setSelectedArtist(artist);
-		setOpenModal(true);
-	};
-
 	return (
 		<>
-			<div className="p-4">
-				<div className="flex justify-between">
-					<div>
-						<h2 className="text-3xl font-bold">Artists</h2>
-						<p>Here you can track your artists</p>
-					</div>
-					<div className="flex items-center">
-						<Button onClick={() => handleOpenAdd()}>Add New Artist</Button>
-					</div>
-				</div>
-				<Table
-					columns={columns}
-					data={artists}
-					onDelete={handleDeleteClick}
-					onEdit={handleEdit}
-				/>
-			</div>
-			{openModal && (
-				<AddEditModal
-					fields={fields}
-					isOpen={openModal}
-					setIsOpen={setOpenModal}
-					title={selectedArtist ? "Edit Artist" : "Add Artist"}
-					onSubmit={handleAdd}
-					initialData={selectedArtist || {}}
-				/>
-			)}
-
-			{openDeleteModal && (
-				<ConfirmationModal
-					isOpen={openDeleteModal}
-					onClose={() => setOpenDeleteModal(false)}
-					onConfirm={confirmDelete}
-					title="Delete Artist"
-					message={`Are you sure you want to delete ${artistToDelete?.name || ""}?`}
-					confirmText="Delete"
-					confirmColor="bg-red-500 hover:bg-red-600"
-				/>
-			)}
+			<CrudPage
+				title="Artist"
+				columns={artistColumns}
+				fields={artistFields}
+				initialData={data}
+				onDelete={handleDelete}
+				onSubmit={handleSubmit}
+				idAccessor="artistID"
+				displayNameAccessor="artistName"
+				setData={setData}
+			/>
 		</>
 	);
 }

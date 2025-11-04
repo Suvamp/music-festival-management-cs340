@@ -1,4 +1,3 @@
-// components/ReusableForm.jsx
 import React, { useState, useEffect } from "react";
 
 export default function Form({
@@ -14,7 +13,6 @@ export default function Form({
 		)
 	);
 
-	// Update form if initialData changes (important when editing different rows)
 	useEffect(() => {
 		setFormData(
 			Object.fromEntries(
@@ -30,7 +28,6 @@ export default function Form({
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		onSubmit(formData);
-		// Reset only if it's an Add form (no initialData)
 		if (!initialData || Object.keys(initialData).length === 0) {
 			setFormData(Object.fromEntries(fields.map((field) => [field.name, ""])));
 		}

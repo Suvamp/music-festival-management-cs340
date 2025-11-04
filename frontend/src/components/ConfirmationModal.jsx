@@ -1,4 +1,3 @@
-// components/ConfirmationModal.jsx
 import Modal from "./PopupModal";
 import Button from "./Button";
 
@@ -10,7 +9,7 @@ export default function ConfirmationModal({
 	message = "Are you sure?",
 	confirmText = "Confirm",
 	cancelText = "Cancel",
-	confirmColor = "bg-red-500 hover:bg-red-600", // customizable
+	confirmColor = "bg-red-500 hover:bg-red-600",
 }) {
 	return (
 		<Modal
