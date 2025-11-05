@@ -5,16 +5,16 @@ const path = require("path");
 const app = express();
 app.use(express.static(path.join(__dirname, "dist")));
 
-const PORT = 4450;
+const PORT = 9030;
 
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "dist", "index.html"));
+	res.sendFile(path.resolve(__dirname, "dist", "index.html"));
 });
 
 // ########## LISTENER
 
 app.listen(PORT, () => {
-  console.log(
-    `Server running: http://classwork.engr.oregonstate.edu:${PORT}...`
-  );
+	console.log(
+		`Server running: http://classwork.engr.oregonstate.edu:${PORT}...`
+	);
 });
