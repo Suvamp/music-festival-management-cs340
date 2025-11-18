@@ -8,8 +8,8 @@ function FestivalsPage() {
 	const [data, setData] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState(null);
-	const handleSubmit = (item) => {
-		console.log(`Submitted, ${item}`);
+	const handleSubmit = async (item) => {
+		console.log(`Submitted: ${JSON.stringify(item)}`);
 	};
 	const handleDelete = (item) => {
 		console.log(`Deleted ${item}`);

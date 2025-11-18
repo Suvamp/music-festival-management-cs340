@@ -12,6 +12,7 @@ export default function Form({
 			fields.map((field) => [field.name, initialData[field.name] || ""])
 		)
 	);
+	const [errors, setErrors] = useState({});
 
 	useEffect(() => {
 		setFormData(
@@ -27,7 +28,27 @@ export default function Form({
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+
+		const newErrors = {};
+
+		fields.forEach((field) => {
+			const value = formData[field.name];
+
+			if (field.required && !value) {
+				newErrors[field.name] = `${field.label || field.name} is required`;
+			} else if (field.validate && !field.validate(value)) {
+				newErrors[field.name] = `${field.label || field.name} is invalid`;
+			}
+		});
+
+		if (Object.keys(newErrors).length > 0) {
+			setErrors(newErrors);
+			return; // stop submission
+		}
+
+		setErrors({});
 		onSubmit(formData);
+
 		if (!initialData || Object.keys(initialData).length === 0) {
 			setFormData(Object.fromEntries(fields.map((field) => [field.name, ""])));
 		}
@@ -71,6 +92,11 @@ export default function Form({
 							onChange={handleChange}
 							className="border px-2 py-1 rounded"
 						/>
+					)}
+					{errors[field.name] && (
+						<span className="text-red-500 text-sm mt-1">
+							{errors[field.name]}
+						</span>
 					)}
 				</div>
 			))}

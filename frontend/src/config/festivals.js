@@ -14,6 +14,7 @@ export const festivalFields = [
 		name: "festivalName",
 		label: "Festival Name",
 		placeholder: "Enter festival name",
+		required: true,
 	},
 	{
 		name: "startDate",
