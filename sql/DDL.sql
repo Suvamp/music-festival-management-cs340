@@ -1,7 +1,7 @@
 -- Music Festival Management System
 -- Database Definition Language (DDL) and Sample Data
 -- Group: 42
--- Team Members: Suvam Patel, Kennet Sieu
+-- Team Members: Suvam Patel, Kenneth Sieu
 -- Date: 10/25/2025
 
 -- Disable foreign key checks and autocommit for clean import

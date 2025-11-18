@@ -1,7 +1,7 @@
 -- Music Festival Management System
 -- Data Manipulation Queries (DML)
 -- Group: 42
--- Team Members: Suvam Patel, Kennet Sieu
+-- Team Members: Suvam Patel, Kenneth Sieu
 -- Date: 11/3/2025
 
 
