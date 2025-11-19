@@ -11,52 +11,27 @@ function FestivalsPage() {
 
 	const handleSubmit = async (item, isEdit) => {
 		try {
-			let data;
+			const method = isEdit ? "PUT" : "POST";
+			const url = isEdit
+				? `${backendURL}/api/festivals/${item.festivalID}`
+				: `${backendURL}/api/festivals`;
 
-			if (isEdit) {
-				// EDIT: send PUT request to update existing festival
-				const res = await fetch(
-					`${backendURL}/api/festivals/${item.festivalID}`,
-					{
-						method: "PUT",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify(item),
-					}
-				);
+			const res = await fetch(url, {
+				method,
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(item),
+			});
 
-				if (!res.ok) throw new Error("Failed to update festival");
+			if (!res.ok) throw new Error("Failed");
 
-				data = await res.json();
-
-				// Update state
-				setData((prev) =>
-					prev.map((f) => (f.festivalID === data.festivalID ? data : f))
-				);
-
-				console.log(`Edited: ${data.festivalID}`);
-			} else {
-				// ADD: send POST request to create new festival
-				const res = await fetch(`${backendURL}/api/festivals`, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(item),
-				});
-
-				if (!res.ok) throw new Error("Missing fields");
-
-				data = await res.json();
-
-				// Add new item to state
-				setData((prev) => [{ ...item, festivalID: data.festivalID }, ...prev]);
-
-				console.log(`Submitted: ${data.festivalID}`);
-			}
-		} catch (error) {
-			console.error("Error submitting festival:", error);
+			const data = await res.json();
+			setData((prev) =>
+				isEdit
+					? prev.map((f) => (f.festivalID === data.festivalID ? data : f))
+					: [{ ...item, festivalID: data.festivalID }, ...prev]
+			);
+		} catch (err) {
+			console.error(err);
 		}
 	};
 
