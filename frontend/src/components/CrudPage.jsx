@@ -41,7 +41,10 @@ export default function CrudPage({
 	// ADD / EDIT
 	const handleAddEdit = async (item) => {
 		if (onSubmit) {
-			await onSubmit(item);
+			const payload = selectedItem
+				? { ...item, festivalID: selectedItem.festivalID }
+				: item;
+			await onSubmit(payload, !!selectedItem);
 		} else {
 			if (selectedItem) {
 				setData((prev) =>

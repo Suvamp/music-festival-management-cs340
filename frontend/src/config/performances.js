@@ -3,11 +3,11 @@ export const performanceColumns = [
 	{ header: "Artist Name", accessor: "artistName" },
 	{ header: "Stage Name", accessor: "stageName" },
 	{ header: "Festival", accessor: "festivalName" },
-	{ header: "Performance Date", accessor: "performanceDate" },
-	{ header: "Start Time", accessor: "startTime" },
-	{ header: "End Time", accessor: "endTime" },
+	{ header: "Performance Date", accessor: "performanceDate", type: "date" },
+	{ header: "Start Time", accessor: "startTime", type: "time" },
+	{ header: "End Time", accessor: "endTime", type: "time" },
 	{ header: "Setup Notes", accessor: "setupNotes" },
-	{ header: "Soundcheck Time", accessor: "soundcheckTime" },
+	{ header: "Soundcheck Time", accessor: "soundcheckTime", type: "time" },
 ];
 
 export const performanceFields = (artists, stages) => [

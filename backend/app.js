@@ -15,11 +15,6 @@ const PORT = 9040;
 // Database
 const db = require("./database/db-connector");
 
-// Handlebars
-// const { engine } = require("express-handlebars");
-// app.engine(".hbs", engine({ extname: ".hbs" }));
-// app.set("view engine", ".hbs");
-
 // ########################################
 // ########## PAGE ROUTES
 
@@ -248,8 +243,20 @@ app.post("/api/festivals", async function (req, res) {
 			budget,
 			ticketPrice,
 		} = req.body;
-		const query = `INSERT INTO festivals (festivalName, startDate, endDate, location, 
-                       expectedAttendance, budget, ticketPrice) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+
+		if (
+			!festivalName ||
+			!startDate ||
+			!endDate ||
+			!location ||
+			!expectedAttendance ||
+			!budget ||
+			!ticketPrice
+		) {
+			return res.status(400).json({ error: "Missing data fields" });
+		}
+
+		const query = `CALL sp_create_festival(?, ?, ?, ?, ?, ?, ?, @festivalID); SELECT @festivalID AS festivalID;`;
 
 		const [result] = await db.query(query, [
 			festivalName,
@@ -263,11 +270,11 @@ app.post("/api/festivals", async function (req, res) {
 
 		res.status(201).json({
 			message: "Festival created successfully",
-			festivalID: result.insertId,
+			festivalID: result[1][0].festivalID,
 		});
 	} catch (error) {
 		console.error("Error creating festival:", error);
-		res.status(500).json({ error: "Failed to create festival" });
+		return res.status(500).json({ error: "Failed to create festival" });
 	}
 });
 
@@ -282,11 +289,23 @@ app.put("/api/festivals/:id", async function (req, res) {
 			budget,
 			ticketPrice,
 		} = req.body;
-		const query = `UPDATE festivals SET festivalName = ?, startDate = ?, endDate = ?, 
-                       location = ?, expectedAttendance = ?, budget = ?, ticketPrice = ? 
-                       WHERE festivalID = ?`;
 
-		const [result] = await db.query(query, [
+		if (
+			!festivalName ||
+			!startDate ||
+			!endDate ||
+			!location ||
+			!expectedAttendance ||
+			!budget ||
+			!ticketPrice
+		) {
+			return res.status(400).json({ error: "Missing data fields" });
+		}
+
+		const query = `CALL sp_update_festival(?, ?, ?, ?, ?, ?, ?,?);`;
+
+		await db.query(query, [
+			req.params.id,
 			festivalName,
 			startDate,
 			endDate,
@@ -294,18 +313,24 @@ app.put("/api/festivals/:id", async function (req, res) {
 			expectedAttendance,
 			budget,
 			ticketPrice,
-			req.params.id,
 		]);
-
-		if (result.affectedRows === 0) {
-			res.status(404).json({ error: "Festival not found" });
-			return;
-		}
-
-		res.json({ message: "Festival updated successfully" });
+		res.status(200).json({
+			festivalID: Number(req.params.id),
+			festivalName,
+			startDate,
+			endDate,
+			location,
+			expectedAttendance,
+			budget,
+			ticketPrice,
+		});
 	} catch (error) {
 		console.error("Error updating festival:", error);
-		res.status(500).json({ error: "Failed to update festival" });
+		if (error.code === "ER_SIGNAL_EXCEPTION") {
+			return res.status(404).json({ error: error.sqlMessage });
+		}
+
+		return res.status(500).json({ error: "Failed to update festival" });
 	}
 });
 
@@ -325,6 +350,8 @@ app.delete("/api/festivals/:id", async function (req, res) {
 		return res.status(500).json({ error: "Failed to delete festival" });
 	}
 });
+
+// ===== Artists API =====
 
 app.post("/api/artists", async function (req, res) {
 	try {

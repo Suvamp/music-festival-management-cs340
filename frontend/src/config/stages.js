@@ -2,7 +2,7 @@ export const stageColumns = [
 	{ header: "Stage ID", accessor: "stageID" },
 	{ header: "Festival Name", accessor: "festivalName" },
 	{ header: "Stage Name", accessor: "stageName" },
-	{ header: "Capacity", accessor: "capacity" },
+	{ header: "Capacity", accessor: "capacity", type: "number" },
 	{ header: "Stage Type", accessor: "stageType" },
 	{ header: "Location Description", accessor: "locationDescription" },
 	{ header: "Has Cover", accessor: "hasCover" },

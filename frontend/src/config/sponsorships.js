@@ -3,9 +3,9 @@ export const sponsorshipColumns = [
 	{ header: "Sponsor Name", accessor: "sponsorName" },
 	{ header: "Sponsor Industry", accessor: "industry" },
 	{ header: "Festival Name", accessor: "festivalName" },
-	{ header: "Amount", accessor: "sponsorshipAmount" },
+	{ header: "Amount", accessor: "sponsorshipAmount", type: "number" },
 	{ header: "Tier", accessor: "sponsorshipTier" },
-	{ header: "Contract Date", accessor: "contractDate" },
+	{ header: "Contract Date", accessor: "contractDate", type: "date" },
 	{ header: "Benefits", accessor: "benefits" },
 ];
 

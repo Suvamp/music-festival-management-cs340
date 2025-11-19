@@ -15,6 +15,7 @@
 		"@iconify-icons/mdi": "^1.2.48",
 		"@iconify/icons-mdi": "^1.2.48",
 		"@iconify/react": "^6.0.2",
+		"date-fns": "^4.1.0",
 		"express": "^4.21.2",
 		"forever": "^1.0.1",
 		"path": "^0.12.7",

@@ -5,8 +5,8 @@ export const vendorAssignmentColumns = [
 	{ header: "Vendor Name", accessor: "vendorName" },
 	{ header: "Vendor Type", accessor: "vendorType" },
 	{ header: "Booth Number", accessor: "boothNumber" },
-	{ header: "Registration Fee", accessor: "registrationFee" },
-	{ header: "Assignment Date", accessor: "assignmentDate" },
+	{ header: "Registration Fee", accessor: "registrationFee", type: "number" },
+	{ header: "Assignment Date", accessor: "assignmentDate", type: "date" },
 ];
 
 export const vendorAssignmentFields = (vendors, festivals) => [

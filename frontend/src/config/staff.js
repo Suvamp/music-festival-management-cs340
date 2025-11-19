@@ -5,7 +5,7 @@ export const staffColumns = [
 	{ header: "Email", accessor: "email" },
 	{ header: "Phone", accessor: "phone" },
 	{ header: "Role", accessor: "role" },
-	{ header: "Hourly Rate", accessor: "hourlyRate" },
+	{ header: "Hourly Rate", accessor: "hourlyRate", type: "currency" },
 ];
 
 export const staffFields = [

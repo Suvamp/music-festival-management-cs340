@@ -1,16 +1,9 @@
-import { Icon } from "@iconify/react";
-import editIcon from "@iconify/icons-mdi/pencil";
 import deleteIcon from "@iconify/icons-mdi/delete";
-import { Link } from "react-router-dom";
+import editIcon from "@iconify/icons-mdi/pencil";
+import { Icon } from "@iconify/react";
+import { formatValue } from "../helper/helper";
 
-export default function Table({
-	columns,
-	data,
-	idAccessor,
-	onDelete,
-	onEdit,
-	showViewMore = false,
-}) {
+export default function Table({ columns, data, idAccessor, onDelete, onEdit }) {
 	const handleDelete = (id) => {
 		onDelete(id);
 	};
@@ -44,7 +37,7 @@ export default function Table({
 								<td
 									key={col.accessor}
 									className="py-2 px-4 text-sm">
-									{row[col.accessor]}
+									{formatValue(row[col.accessor], col.type)}
 								</td>
 							))}
 							<td className="mx-auto flex items-center justify-center">
@@ -66,17 +59,6 @@ export default function Table({
 										height="18"
 									/>
 								</button>
-								{showViewMore && (
-									<Link
-										to={`/festivals/${row.festivalID}/stages`}
-										onClick={() => onView(row)}>
-										<Icon
-											icon="mdi:eye"
-											width="18"
-											height="18"
-										/>
-									</Link>
-								)}
 							</td>
 						</tr>
 					))}

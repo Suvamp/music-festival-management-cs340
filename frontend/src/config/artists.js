@@ -2,7 +2,7 @@ export const artistColumns = [
 	{ header: "Artist ID", accessor: "artistID" },
 	{ header: "Artist Name", accessor: "artistName" },
 	{ header: "Genre", accessor: "genre" },
-	{ header: "Booking Fee", accessor: "bookingFee" },
+	{ header: "Booking Fee", accessor: "bookingFee", type: "number" },
 	{ header: "Contact Email", accessor: "contactEmail" },
 	{ header: "Contact Phone", accessor: "contactPhone" },
 	{ header: "Country", accessor: "country" },

@@ -10,7 +10,7 @@ function AddEditModal({
 	fields,
 }) {
 	const handleSubmit = (data) => {
-		onSubmit({ ...data, id: initialData?.id || new Date().getTime() });
+		onSubmit(data);
 		setIsOpen(false);
 	};
 	return (

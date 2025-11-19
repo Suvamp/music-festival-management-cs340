@@ -3,8 +3,8 @@ export const staffAssignmentColumns = [
 	{ header: "Festival Name", accessor: "festivalName" },
 	{ header: "Staff Name", accessor: "staffName" },
 	{ header: "Role", accessor: "role" },
-	{ header: "Hourly Rate", accessor: "hourlyRate" },
-	{ header: "Assigned Date", accessor: "assignedDate" },
+	{ header: "Hourly Rate", accessor: "hourlyRate", type: "currency" },
+	{ header: "Assigned Date", accessor: "assignedDate", type: "date" },
 	{ header: "Hours Worked", accessor: "hoursWorked" },
 	{ header: "Shift Notes", accessor: "shiftNotes" },
 ];
