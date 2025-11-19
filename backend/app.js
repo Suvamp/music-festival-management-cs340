@@ -311,22 +311,20 @@ app.put("/api/festivals/:id", async function (req, res) {
 
 app.delete("/api/festivals/:id", async function (req, res) {
 	try {
-		const query = "DELETE FROM festivals WHERE festivalID = ?";
-		const [result] = await db.query(query, [req.params.id]);
-
-		if (result.affectedRows === 0) {
-			res.status(404).json({ error: "Festival not found" });
-			return;
-		}
+		const query = "CALL sp_delete_festival(?)";
+		await db.query(query, [req.params.id]);
 
 		res.json({ message: "Festival deleted successfully" });
 	} catch (error) {
 		console.error("Error deleting festival:", error);
-		res.status(500).json({ error: "Failed to delete festival" });
+
+		if (error.code === "ER_SIGNAL_EXCEPTION") {
+			return res.status(404).json({ error: error.sqlMessage });
+		}
+
+		return res.status(500).json({ error: "Failed to delete festival" });
 	}
 });
-
-// ===== ARTISTS API =====
 
 app.post("/api/artists", async function (req, res) {
 	try {
@@ -402,18 +400,15 @@ app.put("/api/artists/:id", async function (req, res) {
 
 app.delete("/api/artists/:id", async function (req, res) {
 	try {
-		const query = "DELETE FROM artists WHERE artistID = ?";
-		const [result] = await db.query(query, [req.params.id]);
-
-		if (result.affectedRows === 0) {
-			res.status(404).json({ error: "Artist not found" });
-			return;
-		}
-
+		const query = "CALL sp_delete_artist(?)";
+		await db.query(query, [req.params.id]);
 		res.json({ message: "Artist deleted successfully" });
 	} catch (error) {
 		console.error("Error deleting artist:", error);
-		res.status(500).json({ error: "Failed to delete artist" });
+		if (error.code === "ER_SIGNAL_EXCEPTION") {
+			return res.status(404).json({ error: error.sqlMessage });
+		}
+		return res.status(500).json({ error: "Failed to delete artist" });
 	}
 });
 
@@ -488,18 +483,16 @@ app.put("/api/stages/:id", async function (req, res) {
 
 app.delete("/api/stages/:id", async function (req, res) {
 	try {
-		const query = "DELETE FROM stages WHERE stageID = ?";
-		const [result] = await db.query(query, [req.params.id]);
-
-		if (result.affectedRows === 0) {
-			res.status(404).json({ error: "Stage not found" });
-			return;
-		}
-
+		const query = "CALL sp_delete_stage(?)";
+		await db.query(query, [req.params.id]);
 		res.json({ message: "Stage deleted successfully" });
 	} catch (error) {
 		console.error("Error deleting stage:", error);
-		res.status(500).json({ error: "Failed to delete stage" });
+
+		if (error.code === "ER_SIGNAL_EXCEPTION") {
+			return res.status(404).json({ error: error.sqlMessage });
+		}
+		return res.status(500).json({ error: "Failed to delete stage" });
 	}
 });
 
@@ -570,18 +563,18 @@ app.put("/api/vendors/:id", async function (req, res) {
 
 app.delete("/api/vendors/:id", async function (req, res) {
 	try {
-		const query = "DELETE FROM vendors WHERE vendorID = ?";
-		const [result] = await db.query(query, [req.params.id]);
-
-		if (result.affectedRows === 0) {
-			res.status(404).json({ error: "Vendor not found" });
-			return;
-		}
+		const query = "CALL sp_delete_vendor(?)";
+		await db.query(query, [req.params.id]);
 
 		res.json({ message: "Vendor deleted successfully" });
 	} catch (error) {
 		console.error("Error deleting vendor:", error);
-		res.status(500).json({ error: "Failed to delete vendor" });
+
+		if (error.code === "ER_SIGNAL_EXCEPTION") {
+			return res.status(404).json({ error: error.sqlMessage });
+		}
+
+		return res.status(500).json({ error: "Failed to delete vendor" });
 	}
 });
 
@@ -642,18 +635,16 @@ app.put("/api/sponsors/:id", async function (req, res) {
 
 app.delete("/api/sponsors/:id", async function (req, res) {
 	try {
-		const query = "DELETE FROM sponsors WHERE sponsorID = ?";
-		const [result] = await db.query(query, [req.params.id]);
-
-		if (result.affectedRows === 0) {
-			res.status(404).json({ error: "Sponsor not found" });
-			return;
-		}
+		const query = "CALL sp_delete_sponsor(?)";
+		await db.query(query, [req.params.id]);
 
 		res.json({ message: "Sponsor deleted successfully" });
 	} catch (error) {
 		console.error("Error deleting sponsor:", error);
-		res.status(500).json({ error: "Failed to delete sponsor" });
+		if (error.code === "ER_SIGNAL_EXCEPTION") {
+			return res.status(404).json({ error: error.sqlMessage });
+		}
+		return res.status(500).json({ error: "Failed to delete sponsor" });
 	}
 });
 
@@ -714,18 +705,16 @@ app.put("/api/staff/:id", async function (req, res) {
 
 app.delete("/api/staff/:id", async function (req, res) {
 	try {
-		const query = "DELETE FROM staff WHERE staffID = ?";
-		const [result] = await db.query(query, [req.params.id]);
+		const query = "CALL sp_delete_staff(?)";
+		await db.query(query, [req.params.id]);
 
-		if (result.affectedRows === 0) {
-			res.status(404).json({ error: "Staff member not found" });
-			return;
-		}
-
-		res.json({ message: "Staff member deleted successfully" });
+		res.json({ message: "Staff deleted successfully" });
 	} catch (error) {
-		console.error("Error deleting staff member:", error);
-		res.status(500).json({ error: "Failed to delete staff member" });
+		console.error("Error deleting staff:", error);
+		if (error.code === "ER_SIGNAL_EXCEPTION") {
+			return res.status(404).json({ error: error.sqlMessage });
+		}
+		return res.status(500).json({ error: "Failed to delete staff" });
 	}
 });
 
@@ -805,18 +794,16 @@ app.put("/api/performances/:id", async function (req, res) {
 
 app.delete("/api/performances/:id", async function (req, res) {
 	try {
-		const query = "DELETE FROM performances WHERE performanceID = ?";
-		const [result] = await db.query(query, [req.params.id]);
-
-		if (result.affectedRows === 0) {
-			res.status(404).json({ error: "Performance not found" });
-			return;
-		}
+		const query = "CALL sp_delete_performance(?)";
+		await db.query(query, [req.params.id]);
 
 		res.json({ message: "Performance deleted successfully" });
 	} catch (error) {
 		console.error("Error deleting performance:", error);
-		res.status(500).json({ error: "Failed to delete performance" });
+		if (error.code === "ER_SIGNAL_EXCEPTION") {
+			return res.status(404).json({ error: error.sqlMessage });
+		}
+		return res.status(500).json({ error: "Failed to delete performance" });
 	}
 });
 
@@ -887,18 +874,18 @@ app.put("/api/vendor-assignments/:id", async function (req, res) {
 
 app.delete("/api/vendor-assignments/:id", async function (req, res) {
 	try {
-		const query = "DELETE FROM vendorAssignments WHERE assignmentID = ?";
-		const [result] = await db.query(query, [req.params.id]);
-
-		if (result.affectedRows === 0) {
-			res.status(404).json({ error: "Vendor assignment not found" });
-			return;
-		}
+		const query = "CALL sp_delete_vendorAssignment(?)";
+		await db.query(query, [req.params.id]);
 
 		res.json({ message: "Vendor assignment deleted successfully" });
 	} catch (error) {
 		console.error("Error deleting vendor assignment:", error);
-		res.status(500).json({ error: "Failed to delete vendor assignment" });
+		if (error.code === "ER_SIGNAL_EXCEPTION") {
+			return res.status(404).json({ error: error.sqlMessage });
+		}
+		return res
+			.status(500)
+			.json({ error: "Failed to delete vendor assignment" });
 	}
 });
 
@@ -973,18 +960,16 @@ app.put("/api/sponsorships/:id", async function (req, res) {
 
 app.delete("/api/sponsorships/:id", async function (req, res) {
 	try {
-		const query = "DELETE FROM sponsorships WHERE sponsorshipID = ?";
-		const [result] = await db.query(query, [req.params.id]);
-
-		if (result.affectedRows === 0) {
-			res.status(404).json({ error: "Sponsorship not found" });
-			return;
-		}
+		const query = "CALL sp_delete_sponsorship(?)";
+		await db.query(query, [req.params.id]);
 
 		res.json({ message: "Sponsorship deleted successfully" });
 	} catch (error) {
-		console.error("Error deleting sponsorship:", error);
-		res.status(500).json({ error: "Failed to delete sponsorship" });
+		console.error("Error deleting Sponsorship:", error);
+		if (error.code === "ER_SIGNAL_EXCEPTION") {
+			return res.status(404).json({ error: error.sqlMessage });
+		}
+		return res.status(500).json({ error: "Failed to delete Sponsorship" });
 	}
 });
 
@@ -1045,18 +1030,16 @@ app.put("/api/staff-assignments/:id", async function (req, res) {
 
 app.delete("/api/staff-assignments/:id", async function (req, res) {
 	try {
-		const query = "DELETE FROM staffAssignments WHERE staffAssignmentID = ?";
-		const [result] = await db.query(query, [req.params.id]);
-
-		if (result.affectedRows === 0) {
-			res.status(404).json({ error: "Staff assignment not found" });
-			return;
-		}
+		const query = "CALL sp_delete_staff_assignment(?)";
+		await db.query(query, [req.params.id]);
 
 		res.json({ message: "Staff assignment deleted successfully" });
 	} catch (error) {
-		console.error("Error deleting staff assignment:", error);
-		res.status(500).json({ error: "Failed to delete staff assignment" });
+		console.error("Error deleting Staff assignment:", error);
+		if (error.code === "ER_SIGNAL_EXCEPTION") {
+			return res.status(404).json({ error: error.sqlMessage });
+		}
+		return res.status(500).json({ error: "Failed to delete Staff assignment" });
 	}
 });
 

@@ -10,9 +10,16 @@ function ArtistsPage() {
 	const handleSubmit = (item) => {
 		console.log(`Submitted, ${item}`);
 	};
-	const handleDelete = (item) => {
-		console.log(`Deleted ${item}`);
-		setData((prev) => prev.filter((a) => a.artistID !== item.artistID));
+	const handleDelete = async (item) => {
+		try {
+			await fetch(`${backendURL}/api/artists/${item.artistID}`, {
+				method: "DELETE",
+			});
+			console.log(`Deleted ${item.artistID}`);
+			setData((prev) => prev.filter((a) => a.artistID !== item.artistID));
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	useEffect(() => {

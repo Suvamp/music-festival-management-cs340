@@ -14,12 +14,19 @@ function StagesPage() {
 	const handleSubmit = (item) => {
 		console.log(`Submitted, ${item}`);
 	};
-	const handleDelete = (item) => {
-		console.log(`Deleted ${item}`);
-		setData((prev) => ({
-			...prev,
-			stages: prev.stages.filter((s) => s.stageID !== item.stageID),
-		}));
+	const handleDelete = async (item) => {
+		try {
+			await fetch(`${backendURL}/api/stages/${item.stageID}`, {
+				method: "DELETE",
+			});
+			console.log(`Deleted ${item}`);
+			setData((prev) => ({
+				...prev,
+				stages: prev.stages.filter((s) => s.stageID !== item.stageID),
+			}));
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	useEffect(() => {

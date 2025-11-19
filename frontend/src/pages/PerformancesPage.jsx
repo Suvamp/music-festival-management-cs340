@@ -16,14 +16,21 @@ function PerformancesPage() {
 	const handleSubmit = (item) => {
 		console.log(`Submitted, ${item}`);
 	};
-	const handleDelete = (item) => {
-		console.log(`Deleted ${item}`);
-		setData((prev) => ({
-			...prev,
-			performances: prev.performances.filter(
-				(s) => s.performanceID !== item.performanceID
-			),
-		}));
+	const handleDelete = async (item) => {
+		try {
+			await fetch(`${backendURL}/api/performances/${item.performanceID}`, {
+				method: "DELETE",
+			});
+			console.log(`Deleted ${item.performanceID}`);
+			setData((prev) => ({
+				...prev,
+				performances: prev.performances.filter(
+					(s) => s.performanceID !== item.performanceID
+				),
+			}));
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	useEffect(() => {

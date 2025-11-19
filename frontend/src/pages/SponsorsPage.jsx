@@ -12,9 +12,16 @@ function SponsorsPage() {
 	const handleSubmit = (item) => {
 		console.log(`Submitted, ${item}`);
 	};
-	const handleDelete = (item) => {
-		console.log(`Deleted ${item}`);
-		setData((prev) => prev.filter((a) => a.sponsorID !== item.sponsorID));
+	const handleDelete = async (item) => {
+		try {
+			await fetch(`${backendURL}/api/sponsors/${item.sponsorID}`, {
+				method: "DELETE",
+			});
+			console.log(`Deleted ${item.sponsorID}`);
+			setData((prev) => prev.filter((a) => a.sponsorID !== item.sponsorID));
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	useEffect(() => {

@@ -11,9 +11,16 @@ function FestivalsPage() {
 	const handleSubmit = async (item) => {
 		console.log(`Submitted: ${JSON.stringify(item)}`);
 	};
-	const handleDelete = (item) => {
-		console.log(`Deleted ${item}`);
-		setData((prev) => prev.filter((a) => a.festivalID !== item.festivalID));
+	const handleDelete = async (item) => {
+		try {
+			await fetch(`${backendURL}/api/festivals/${item.festivalID}`, {
+				method: "DELETE",
+			});
+			setData((prev) => prev.filter((a) => a.festivalID !== item.festivalID));
+			console.log(`Deleted: ${item.festivalID}`);
+		} catch (error) {
+			console.error("error deleting festival", error);
+		}
 	};
 
 	useEffect(() => {

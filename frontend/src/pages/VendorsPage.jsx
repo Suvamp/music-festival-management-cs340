@@ -12,9 +12,16 @@ function VendorsPage() {
 	const handleSubmit = (item) => {
 		console.log(`Submitted, ${item}`);
 	};
-	const handleDelete = (item) => {
-		console.log(`Deleted ${item}`);
-		setData((prev) => prev.filter((a) => a.vendorID !== item.vendorID));
+	const handleDelete = async (item) => {
+		try {
+			await fetch(`${backendURL}/api/vendors/${item.vendorID}`, {
+				method: "DELETE",
+			});
+			console.log(`Deleted ${item.vendorID}`);
+			setData((prev) => prev.filter((a) => a.vendorID !== item.vendorID));
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	useEffect(() => {

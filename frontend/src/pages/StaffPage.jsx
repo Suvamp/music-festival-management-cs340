@@ -12,9 +12,17 @@ function StaffPage() {
 	const handleSubmit = (item) => {
 		console.log(`Submitted, ${item}`);
 	};
-	const handleDelete = (item) => {
-		console.log(`Deleted ${item}`);
-		setData((prev) => prev.filter((a) => a.staffID !== item.staffID));
+
+	const handleDelete = async (item) => {
+		try {
+			await fetch(`${backendURL}/api/staff/${item.staffID}`, {
+				method: "DELETE",
+			});
+			console.log(`Deleted ${item.staffID}`);
+			setData((prev) => prev.filter((a) => a.staffID !== item.staffID));
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	useEffect(() => {

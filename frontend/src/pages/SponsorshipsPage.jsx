@@ -17,14 +17,21 @@ function SponsorshipsPage() {
 	const handleSubmit = (item) => {
 		console.log(`Submitted, ${item}`);
 	};
-	const handleDelete = (item) => {
-		console.log(`Deleted ${item}`);
-		setData((prev) => ({
-			...prev,
-			sponsorships: prev.sponsorships.filter(
-				(s) => s.sponsorshipID !== item.sponsorshipID
-			),
-		}));
+	const handleDelete = async (item) => {
+		try {
+			await fetch(`${backendURL}/api/sponsorships/${item.sponsorshipID}`, {
+				method: "DELETE",
+			});
+			console.log(`Deleted ${item.sponsorshipID}`);
+			setData((prev) => ({
+				...prev,
+				sponsorships: prev.sponsorships.filter(
+					(s) => s.sponsorshipID !== item.sponsorshipID
+				),
+			}));
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	useEffect(() => {

@@ -20,14 +20,21 @@ function VendorAssignmentsPage() {
 	const handleSubmit = (item) => {
 		console.log(`Submitted, ${item}`);
 	};
-	const handleDelete = (item) => {
-		console.log(`Deleted ${item}`);
-		setData((prev) => ({
-			...prev,
-			vendorAssignments: prev.vendorAssignments.filter(
-				(s) => s.vendorAssignmentID !== item.vendorAssignmentID
-			),
-		}));
+	const handleDelete = async (item) => {
+		try {
+			await fetch(`${backendURL}/api/vendor-assignments/${item.assignmentID}`, {
+				method: "DELETE",
+			});
+			console.log(`Deleted ${item.assignmentID}`);
+			setData((prev) => ({
+				...prev,
+				vendorAssignments: prev.vendorAssignments.filter(
+					(s) => s.assignmentID !== item.assignmentID
+				),
+			}));
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	useEffect(() => {

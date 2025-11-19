@@ -20,14 +20,25 @@ function StaffAssignmentsPage() {
 	const handleSubmit = (item) => {
 		console.log(`Submitted, ${item}`);
 	};
-	const handleDelete = (item) => {
-		console.log(`Deleted ${item}`);
-		setData((prev) => ({
-			...prev,
-			staffAssignments: prev.staffAssignments.filter(
-				(s) => s.staffAssignmentID !== item.staffAssignmentID
-			),
-		}));
+
+	const handleDelete = async (item) => {
+		try {
+			await fetch(
+				`${backendURL}/api/staff-assignments/${item.staffAssignmentID}`,
+				{
+					method: "DELETE",
+				}
+			);
+			console.log(`Deleted ${item.staffAssignmentID}`);
+			setData((prev) => ({
+				...prev,
+				staffAssignments: prev.staffAssignments.filter(
+					(s) => s.staffAssignmentID !== item.staffAssignmentID
+				),
+			}));
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	useEffect(() => {
