@@ -218,7 +218,7 @@ cs340_db_project/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/kkennethsieu/cs340_db_project.git
+   git clone https://github.com/kkennethsieu/cs340_db_project.git](https://github.com/Suvamp/music-festival-management-cs340.git
    cd cs340_db_project
    ```
 
