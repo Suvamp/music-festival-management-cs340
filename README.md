@@ -519,7 +519,7 @@ All database schema, stored procedures, React frontend, and application-specific
 
 ## Repository
 
-GitHub: [https://github.com/kkennethsieu/cs340_db_project](https://github.com/kkennethsieu/cs340_db_project)
+GitHub: [https://github.com/Suvamp/music-festival-management-cs340](https://github.com/Suvamp/music-festival-management-cs340)
 
 ---
 
