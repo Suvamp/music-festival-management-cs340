@@ -8,9 +8,9 @@ const pool = mysql
 		waitForConnections: true,
  		connectionLimit: 10,
 		host: "classmysql.engr.oregonstate.edu",
- 		user: "cs340_patelsuv",
- 		password: "3532",
- 		database: "cs340_patelsuv",
+ 		user: "****",
+ 		password: "",
+ 		database: "cs340_username",
          multipleStatements: true,
  	})
 	.promise(); // This makes it so we can use async / wait
